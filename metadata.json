@@ -1,0 +1,8 @@
+{
+	"name": "LinkModify",
+	"author": "printfuck",
+	"description": "use regex to rewrite links",
+	"version": "0.1",
+	"entrypoint": "Modify",
+	"type": "user"
+}

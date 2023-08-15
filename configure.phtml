@@ -1,0 +1,53 @@
+<form action="<?php echo _url('extension', 'configure', 'e', urlencode($this->getName())); ?>" method="post">
+    <input type="hidden" name="_csrf" value="<?php echo FreshRSS_Auth::csrfToken(); ?>" />
+
+    <div>
+	<p> Select your feed and add it.</p>
+	<select id="feedsel">
+	<?php
+		foreach ($this->getCats() as $c) {
+			echo "<optgroup label=\"" . $c->name() . "\">";
+			foreach ( $c->feeds() as $f) {
+				echo "<option value=\"". $f->id() . "\">" . $f->name() . "</option>";
+			}
+			echo "</optgroup>";
+		}
+	?>
+	</select>
+    </div>
+
+    <div> 
+	<button id="addEntry" class="btn" onclick="addRowNya" type="button">Add Entry</button>
+    </div>
+
+    <script>
+	document.getElementById("addEntry").addEventListener("click", addRowNya);
+    </script>
+   
+    <div id='tables'>
+
+	<table id="inputtable">
+		<?php
+		$conf = $this->getConf();
+		if ($conf !== "") {
+
+			foreach (json_decode($conf,true) as $k => $v ) {
+				echo "<tr>";
+				echo "<td> <input id=\"regex_reg_" . $k . "\" name=\"regex_reg_" . $k . "\" type=\"text\" value=\"" . $v[0] . "\"></td>";
+				echo "<td> <input id=\"regex_rep_" . $k . "\" name=\"regex_rep_" . $k . "\" type=\"text\" value=\"" . $v[1] . "\"></td>";
+				echo "<td>" . $this->getNamebyId(intval($k)) . "</td>";	
+				echo "</tr>";
+			}
+		}
+		?>
+	</table>
+
+    </div>
+
+    <div class="form-group form-actions">
+	<div class="group-controls">
+	    <button type="submit" class="btn btn-important"><?php echo _t('gen.action.submit'); ?></button>
+	    <button type="reset" class="btn"><?php echo _t('gen.action.cancel'); ?></button>
+	</div>
+    </div>
+</form>
